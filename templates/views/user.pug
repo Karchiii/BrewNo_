@@ -1,0 +1,38 @@
+extends ../layouts/default
+
+include ../mixins/userRow
+include ../mixins/pagination
+include ../mixins/searchfield
+
+block content
+  div#userContent.scrollable-page.container.canslide.page
+    +searchfield('user')
+    div.row
+      div.col-xs-12.alertbox
+    div.row
+      div.col-xs-10
+        button.btn.btn-primary.action-add(data-toggle="modal", data-target="#userModal", data-action="user")
+          span.glyphicon.glyphicon-plus
+          span  User
+    div.userList.pageContent
+      if users.length > 0
+        table.table
+          tr
+            th.hidden-xs.sortLine(data-name='firstName', data-target='')='First Name'
+            th.hidden-xs.sortLine(data-name='lastName', data-target='')='Last Name'
+            th.hidden-xs.sortLine(data-name='email', data-target='')='Email'
+            th.hidden-xs.sortLine(data-name='Role', data-target='')='Role'
+            th.hidden-xs.sortLine(data-name='Delete', data-target='')=''
+          each user in users
+            if(user.isTrashed === false)
+            +userRow(user)
+
+      +paginate()
+
+  .modal.fade#userModal(tabindex="-1",role="dialog",aria-labelledby="userPropertiesLabel",data-backdrop="static")
+block css
+  link(rel="stylesheet",href="/styles/user.css")
+
+
+block js
+  script(src='/js/user.min.js')

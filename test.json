@@ -1,0 +1,13 @@
+{
+  "time_stamp": "13:52:27",
+  "date_stamp": "10.05.2022",
+  "brew_name": "Pale Ale",
+  "brew_stage": "Cold Crash",
+  "measure_interval": 60,   
+  "state": "cooling",
+  "temperature": 10,
+  "ferment_rate": 60,
+  "bubble_count": 1201,
+  "room_temperature": 25,
+  "room_humidity": 4
+}

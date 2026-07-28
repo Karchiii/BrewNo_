@@ -1,0 +1,18 @@
+mixin paginate()
+  div.pagination-container
+    if pagination && pagination.pages
+      div.text-center
+        if pagination.pages.length > 1
+          nav(aria-label="Page navigation")
+            ul.pagination
+              li(class=(1 == pagination.currentPage ? "disabled" : ""))
+                span.paginationButton(data="page=" + pagination.previous,aria-label="Previous")
+                  span.glyphicon.glyphicon-chevron-left
+              each page in pagination.pages
+                li(class=(page == pagination.currentPage ? "active" : ""))
+                  span.paginationButton(data="page=" + page)= page
+              li(class=(pagination.pages.length == pagination.currentPage ? "disabled" : ""))
+                span.paginationButton(data="page=" + pagination.next,aria-label="Next")
+                  span.glyphicon.glyphicon-chevron-right
+            p.text-center
+              small= pagination.first + " - " + pagination.last + " of " + pagination.total

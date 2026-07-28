@@ -1,0 +1,9 @@
+mixin searchfield(name)
+  div.row
+    div.col-xs-12
+      div.searchBox
+        input#searchField.searchField.typeahead(value=search)
+        a.clearSearch(href="/"+name)
+          span(aria-hidden="true") ×
+        button.btn.btn-secondary.btn-search(data-target="/"+name, data-value='searchField', data-toggle="search", data-type=name, data-limit="10")
+          span Search

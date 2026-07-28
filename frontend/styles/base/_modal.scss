@@ -1,0 +1,22 @@
+.modal{
+  top: 60px;
+
+  input:invalid, textarea:invalid {
+    border: #ccc 1px solid;
+  }
+
+  .form-footer{
+    text-align: right; // right align buttons
+    margin-top: 30px;
+    margin-right: 15px;
+  }
+
+  .form-footer button{
+    margin-left: 15px;
+  }
+
+  label{
+    padding-left: 0 !important;
+  }
+
+}

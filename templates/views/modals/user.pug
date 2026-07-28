@@ -1,0 +1,43 @@
+extends ../../layouts/modal
+include ../../mixins/builderFields
+
+block content
+  div#missingFields
+  form#userForm(role="form"  data-toggle="validator" novalidate="true" method="post")
+    div.container-fluid#userTabContent.smooth-transition
+      div.row.automationAddEditForm
+        div.col-xs-12
+          div.row
+            div.col-xs-12
+              div.form-group-sm
+                input.hidden.optionValue(id='selectedID' name='id' value=user.id)
+                div.row
+                  div.col-xs-6.form-group
+                    +builderCustom(fields['firstName'], true, false)
+                  div.col-xs-6.form-group
+                    +builderCustom(fields['lastName'], true, false)
+                div.row
+                  div.col-xs-12.form-group
+                    +builderCustom(fields['email'], true, false)
+                div.row
+                  if(user.length === 0)
+                    div.col-xs-6.form-group
+                      +builderCustom(fields['password'], true, false)
+                      .tip Password must contain 8 characters, upper and lower case letters and one digit.
+                    div.col-xs-6.form-group
+                      +builderCustom(fields['passwordConfirm'], true, false)
+                  else
+                    div.col-xs-6.form-group
+                      +builderCustom(fields['password'], false, false)
+                      .tip Password must contain 8 characters, upper and lower case letters and one digit.
+                    div.col-xs-6.form-group
+                      +builderCustom(fields['passwordConfirm'], false, false)
+                div.row
+                  div.col-xs-6.form-group
+                    +builderCustom(fields['role'], true, false, roles)
+          div.row
+          div.form-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button.btn.btn-primary.disabled(type="submit", id="save-build",data-id=id) Save User
+block footer  
+  script(src='/js/modalsUser.min.js')

@@ -1,0 +1,49 @@
+// Buttons
+.btn {
+  &-default{
+    background-color: #CCC;
+    &:hover{
+      background-color: $primary-color;
+      color: $font-color-light;
+    }
+  }
+  .glyphicon{
+    margin-right: 5px;
+  }
+}
+
+.btn-round {
+  width: 62px;
+  height: 62px;
+  border-radius: 32px;
+  margin: auto;
+  padding: 0;
+  border: none;
+  color: #FFF;
+  background-color: $primary-color;
+  position: relative;
+
+  &:hover, &:active, &:focus {
+    background-color: $secondary-color;
+    color: #FFF;
+    outline: none;
+    text-decoration: none;
+    border: none;
+  }
+
+  .glyphicon {
+    font-size: 36px;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    padding-left: 3px;
+    padding-bottom: 2px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .glyphicon-arrow-left{
+    padding-left: 0;
+  }
+}

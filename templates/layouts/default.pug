@@ -1,0 +1,119 @@
+include ../mixins/flashMessages
+include ../mixins/loginForm
+doctype html
+html
+
+	//- HTML HEADER
+	head
+		meta(charset="utf-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+
+		title= title || 'BrewNo'
+		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+
+
+		//- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+		//- Safely remove this block if you are not targeting IE8
+		//-[if lt IE 9]
+			script(src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js")
+			script(src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js")
+		//-[endif]
+
+
+		//- Customise the stylesheet for your site by editing /public/styles/site.sass
+		link(href="/commons.css", rel="stylesheet")
+		link(href="/styles/base.css", rel="stylesheet")
+
+		//- Include template-specific stylesheets by extending the css block
+		block css
+
+		// jQuery 1.11.3 is included by default, and required by both Bootstrap
+		// and the KeystoneJS Content Editor. If you are not targeting IE8,
+		//you can upgrade to 2.1.4 (also bundled) for better performance.
+		// script(src='/js/jquery/jquery-3.2.1.min.js')
+
+		//- Customise which Bootstrap javascript files are served by including
+		//- them specifically here, instead of bootstrap-3.3.5.min.js
+		//script(src='/js/bootstrap/bootstrap-3.3.5.min.js')
+
+		//- Add scripts that are globally required by your site here.
+		script(src="/socket.io/socket.io.js")
+		script(src="/js/commons.min.js")
+		script(src="/js/base.min.js")
+
+		//- Add any other template-specific HEAD tags by extending the head block
+		block head
+
+	//- HTML BODY
+	body
+
+		//- HEADER
+		header#header
+			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
+			//- ... or completely change this header to suit your design.
+			if user
+				input.hidden#user(value=user)
+			if user && user.canAccessDashboard
+				nav(role='navigation').navbar.navbar-default
+					div
+						div.navbar-header
+							button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target="#navbar-main-menu",aria-expanded="false")
+								span.sr-only Toggle Navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							a.logo(href="/")
+						div
+							div#navbar-main-menu.collapse.navbar-collapse
+								ul.nav.navbar-nav
+										each link in navLinks                     
+											li(class=(section == link.href ? 'active' : null)): a(href=link.href)= link.label
+								ul.nav.navbar-nav.navbar-right
+									li
+										if user && user.canAccessUser
+											a(href='/user',title='User',data-toggle="tooltip")
+												span User
+												span.glyphicon.glyphicon-user
+									li
+										if user && user.canAccessUser
+											a(href='/trash',title='Trash',data-toggle="tooltip")
+												span Trash
+												span.glyphicon.glyphicon-trash
+									li
+										if user && user.canAccessDashboard
+											a(href='/signout',title='Sign out',data-toggle="tooltip")
+												span Signout
+												span.glyphicon.glyphicon-log-out
+
+
+		//- BODY
+		main#body
+
+			//- NOTE:
+			//- There is no .container wrapping class around body blocks to allow more flexibility in design.
+			//- Remember to include it in your template when you override the intro and content blocks!
+
+			//- The Intro block appears above flash messages (used for temporary information display)
+			block intro
+
+			//- Flash messages allow you to display once-off status messages to user, e.g. form
+			//- validation errors, success messages, etc.
+			+flashMessages(messages)
+
+			+loginForm()
+
+			//- The content block should contain the body of your template's content
+			block content
+
+
+		//- FOOTER
+		footer#footer.container-fluid
+
+			a(href="http://www.hs-duesseldorf.de" target="_blank") &copy; 2022 Hochschule Düsseldorf
+
+
+	//- JAVASCRIPT
+
+	//- Include template-specific javascript files by extending the js block
+	block js

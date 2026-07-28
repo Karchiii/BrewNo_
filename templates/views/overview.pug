@@ -1,0 +1,35 @@
+extends ../layouts/default
+
+block content
+    div.container
+        h1.float-left Overview
+        span.float-right#last-update Last Update
+        table.table
+            tr
+                th.hidden-xs.sortLine(data-name='id', data-target='')='ID'
+                th.hidden-xs.sortLine(data-name='BrewName', data-target='')='Name'
+                th.hidden-xs.sortLine(data-name='temperature', data-target='')='Temperature'
+                th.hidden-xs.sortLine(data-name='bubbles', data-target='')='Bubbles'
+                th.hidden-xs.sortLine(data-name='', data-target='')=''
+            each brewery in brews
+                tr
+                    td=brewery.brewId
+                    td
+                        input.overview-name-input(value=brewery.brewName, data-brew-name=brewery.brewId)
+                        span &nbsp;
+                        span.btn(data-brew-save=brewery.brewId)
+                            span.glyphicon.glyphicon-floppy-disk
+                    td=brewery.temp
+                    td=brewery.bubbles
+                    td 
+                        a(href="/dashboard/"+brewery.brewId) Details&nbsp;
+                            i.glyphicon.glyphicon-chevron-right
+                    td  
+                        a(href="/messenger/"+brewery.brewId) Config&nbsp;
+                            i.glyphicon.glyphicon-chevron-right
+
+block css
+    link(rel="stylesheet",href="/styles/dashboard.css")
+
+block js
+  script(src='/js/overview.min.js')

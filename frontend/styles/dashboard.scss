@@ -1,0 +1,106 @@
+@import "variables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+// Add your own site style includes here
+@import "base/checkbox";
+@import "base/sections";
+@import "base/toggleSwitch";
+
+.section-active {
+  background-color: #CCC;
+  color: #000 !important;
+}
+
+.selection {
+  margin-top: 80px;
+  padding-top: 30px;
+  background-color: #FFF;
+  width: 100%;
+}
+
+.boiler {
+  float: left;
+  width: 100%;
+  min-height: 600px;
+  border: 5px solid $primary-color;
+  border-radius: 22px 22px 22px 22px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+
+.graphics h4 {
+  font: regular 16px helvetica, arial, sans-serif;
+  color: #000;
+}
+
+#tempRoom, #tempBoiler, #fermentRate {
+  width: 22px;
+  height: 150px;
+  display: block;
+  font: bold 14px/152px helvetica, arial, sans-serif;
+  text-indent: 36px;
+  background: -webkit-linear-gradient(top, #fff 0%, #fff 100%, #db0202 0%, #db0202 100%);
+  border-radius: 22px 22px 0 0;
+  border: 3px solid #0407ac;
+  color: #0407ac;
+}
+
+#tempRoom, #tempBoiler {
+  border-bottom: none;
+}
+
+#fermentRate {
+  border-radius: 22px 22px 22px 22px;
+  height: 190px;
+}
+
+/* Thermometer Bulb */
+#tempRoom:before, #tempBoiler:before {
+  content: ' ';
+  width: 44px;
+  height: 44px;
+  display: block;
+  position: relative;
+  top: 142px;
+  left: -14px;
+  z-index: -1; /* Place the bulb under the column */
+  background: #db0202;
+  border-radius: 44px;
+  border: 3px solid #0407ac;
+}
+
+#dataTempBoiler, #dataTempRoom {
+  font: bold 14px/152px helvetica, arial, sans-serif;
+}
+
+#dataFermentRate {
+  font: bold 14px/74px helvetica, arial, sans-serif;
+}
+
+#dataLastUpdate, #dataTotalBubbles, #dataState {
+  font: bold 14px/50px helvetica, arial, sans-serif;
+}
+
+
+.overview-item {
+  border: 5px solid $primary-color;
+  border-radius: 22px 22px 22px 22px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  margin-bottom: 1em;
+}
+
+.overview-item:hover {
+  text-decoration: none;
+}
+
+.overview-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.overview-name-input {
+  border: none;
+  border-bottom: 1px solid darkgray;
+}

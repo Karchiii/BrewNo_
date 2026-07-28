@@ -1,0 +1,41 @@
+@import "variables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+// Add your own site style includes here
+@import "base/checkbox";
+@import "base/sections";
+@import "base/toggleSwitch";
+
+input:invalid, textarea:invalid {
+  border: #ccc 1px solid; }
+
+.form-footer{
+  text-align: right; // right align buttons
+  margin-top: 30px;
+  margin-right: 15px;
+}
+.form-footer button{
+  margin-left: 15px;
+}
+
+label{
+  padding-left: 0 !important;
+}
+
+.selection{
+  margin-top: 80px;
+  padding-top: 30px;
+  background-color: #FFF;
+  width: 100%;
+}
+
+#userTabContent{
+  .tip{
+    font-size: 10px;
+    margin-left: 15px;
+    float: left;
+    margin-top: -10px;
+  }
+}
+
+

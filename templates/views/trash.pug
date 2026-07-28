@@ -1,0 +1,16 @@
+extends ../layouts/default
+
+block content
+  div.container.page
+    div.row      
+      if user && user.canAccessUser
+        div.col-xs-12.col-md-4
+          .panel.panel-default
+            .panel-heading Deleted User
+            .panel-body
+              iframe.trash(src='trash/user/list',frameborder=0)
+
+  block css
+    link(rel="stylesheet",href="/styles/trash.css")
+  block js
+    script(src='/js/trash.min.js')

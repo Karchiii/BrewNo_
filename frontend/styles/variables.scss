@@ -1,0 +1,33 @@
+// Override Bootstrap variables in this file, e.g.
+$primary-color: #48add8;
+$secondary-color: #d7002d;
+$font-color: darken($primary-color, 10%);
+$font-color-light: #FFF;
+$font-color-active: $secondary-color;
+$box-shadow-color: darken($primary-color, 30%);
+
+$logo: url(../images/logo.png);
+$logo-background: #FFF;
+
+$font-size-base: 14px;
+$login-background: $primary-color;
+
+$brand-primary: $secondary-color;
+
+// Navbar
+$navbar-default-bg: #48add8;
+$navbar-default-color: #FFF;
+$navbar-default-border: darken($navbar-default-bg, 6.5%);
+
+// Navbar links
+$navbar-default-link-color:                #FFF;
+$navbar-default-link-hover-color:          #FFF;
+$navbar-default-link-hover-bg:             transparent;
+$navbar-default-link-active-color:         #48add8;
+$navbar-default-link-active-bg:            #FFF;
+$navbar-default-link-disabled-color:       #ccc;
+$navbar-default-link-disabled-bg:          transparent;
+
+// Buttons
+$btn-default-bg: $secondary-color;
+$btn-success-bg: $secondary-color;

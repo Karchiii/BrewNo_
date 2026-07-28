@@ -1,0 +1,69 @@
+include ../mixins/flashMessages
+
+doctype html
+
+html
+
+  //- HTML HEADER
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+
+    title= title || 'BrewNo'
+    link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+
+    link(href="/commons.css", rel="stylesheet")
+    link(href="/styles/base.css", rel="stylesheet")
+
+    //- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+    //- Safely remove this block if you are not targeting IE8
+    //-[if lt IE 9]
+      script(src="//cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.js")
+      script(src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js")
+    //-[endif]
+
+    //- Include template-specific stylesheets by extending the css block
+    block css
+
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/commons.min.js")
+    script(src="/js/base.min.js")
+
+    //- Add any other template-specific HEAD tags by extending the head block
+    block head
+
+  //- HTML BODY
+  body
+
+    //- HEADER
+  header#header: .container
+
+  //- BODY
+  main#body
+    if user
+      input.hidden#user(value=user)
+
+    //- NOTE:
+    //- There is no .container wrapping class around body blocks to allow more flexibility in design.
+    //- Remember to include it in your template when you override the intro and content blocks!
+
+    //- Flash messages allow you to display once-off status messages to user, e.g. form
+    //- validation errors, success messages, etc.
+    +flashMessages(messages)
+
+    //- The content block should contain the body of your template's content
+    block content
+
+  //- FOOTER
+  // footer#footer.container-fluid
+
+      // a(href="http://www.hs-duesseldorf.de" target="_blank") &copy; 2022 Hochschule Düsseldorf
+
+
+  //- JAVASCRIPT
+
+  //- Add scripts that are globally required by your site here.
+
+  //- Include template-specific javascript files by extending the js block
+  block js

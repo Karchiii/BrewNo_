@@ -1,0 +1,26 @@
+mixin flashMessages(messages)
+  if messages
+    #flashMessages.container
+      each message in messages.info
+        +flashMessage(message, 'info')
+      each message in messages.success
+        +flashMessage(message, 'success')
+      each message in messages.warning
+        +flashMessage(message, 'warning')
+      each message in messages.error
+        +flashMessage(message, 'danger')
+
+mixin flashMessage(message, type)
+  if(typeof message !== 'undefined')
+    div(class='alert alert-' + type)
+      if utils.isObject(message)
+        if message.title
+          h4= message.title
+        if message.detail
+          p= message.detail
+        if message.list
+          ul
+            each item in message.list
+              li= item
+      else
+        = message

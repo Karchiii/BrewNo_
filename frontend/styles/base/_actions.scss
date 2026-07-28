@@ -1,0 +1,19 @@
+.action{
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: relative;
+  margin-left: 10px;
+  cursor: pointer;
+  .glyphicon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.action:hover{
+  background-color: $secondary-color;
+  color: #FFF;
+  border-radius: 5px;
+}

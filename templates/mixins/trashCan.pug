@@ -1,0 +1,20 @@
+mixin trashedUser()
+  if (deletedItems.length == 0)
+    .alert.alert-info User trash is empty!
+  else
+    each item in deletedItems
+      h5
+        a(href="/trash/user/recover/" + item._id,data-toggle="tooltip",title="Recover").btn.btn-default
+          span.glyphicon.glyphicon-share-alt
+        span &nbsp;
+        a(href="/trash/user/delete/" + item._id,data-toggle="tooltip",title="Delete").btn.btn-default
+          span.glyphicon.glyphicon-trash
+        strong &nbsp;#{item.name.last}
+      hr
+
+mixin trashCan()
+  case section    
+    when 'User'
+      +trashedUser
+  footer
+    +paginate

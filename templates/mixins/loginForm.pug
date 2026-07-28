@@ -1,0 +1,24 @@
+mixin loginForm()
+  if !user || !user.canAccessDashboard
+    div.container
+      div.row
+        div.background-login
+        div.col-xs-12.col-sm-6.col-md-4.login-form
+          div.panel.panel-default
+            div.panel-heading
+              .logo
+            div.panel-body
+              form(method='post',action='/')
+                div.form-group
+                  input(type='hidden', name='_csrf', value=csrf_token_value)
+                  div.col-xs-12
+                    label E-Mail
+                    input.form-control(type='text',placeholder='E-Mail address',id='email',name='email',size="24")
+                  div.col-xs-12
+                    label Password
+                    input.form-control(type='password',placeholder='Password',id='password',name='password',size="24")
+                  div.col-xs-12.text-right
+                    hr                    
+                    button.btn.btn-primary(type="submit") Login
+            div.panel-footer
+				

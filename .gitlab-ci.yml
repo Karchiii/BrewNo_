@@ -1,0 +1,34 @@
+before_script:
+  - pwd
+  - id  
+
+stages:  
+  - deploy  
+
+environment:
+  stage: deploy
+  script:
+    # Change to onsec folder    
+    - cd /home/isave/brewno/    
+    - sudo -u isave bash -c 'pm2 stop all'    
+    - sudo chown -R gitlab-runner:gitlab-runner .    
+    - sudo chmod -R ugo+rwx .    
+    - git reset --hard    
+    - git pull    
+    - sudo npm run build    
+    - sudo chown -R gitlab-runner:gitlab-runner .    
+    - sudo chmod -R ugo+rwx .        
+    # Update installation    
+    - sudo chown -R isave:isave .    
+    - sudo chmod -R ugo+rwx .      
+    - sudo -u isave bash -c 'pm2 start all'    
+    
+  only:
+    - master
+
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+extends ../layouts/default
+
+block content
+    div.hidden#brews(data-brews=brews data-number=visibleDatapoints data-brew-id=brewId)
+    div.container-fluid#userTabContent.smooth-transition.boiler
+        div.row
+            div.col-xs-12.alertbox
+        div.row
+            div.col.col-lg-6.col-xs-12
+                div.container-fluid
+                    div.row.center-block.graphics
+                        div.col.col-xs-4.text-center
+                            h4 Room
+                            span#tempRoom.clearfix.center-block
+                            span#dataTempRoom N/A
+                        div.col.col-xs-4.text-center
+                            h4 Fermenter
+                            span max. Temperatur: 100°
+                            div#tempBoiler.clearfix.center-block
+                            span#dataTempBoiler N/A
+                            input#setMaxFermentTxt
+                            button#setMaxFermentBtn Maximal Temperatur
+                            span#goalFermentTemp N/A
+
+                        div.col.col-xs-4.text-center
+                            h4 Bubbles per Minute
+                            span#fermentRate.clearfix.center-block
+                            span#dataFermentRate N/A
+            div.col.col-lg-6.col-xs-12
+                div.graphics
+                    div
+                        h4 Last Update
+                        span#dataLastUpdate N/A
+                    div
+                        h4 Total Bubbles
+                        span#dataTotalBubbles N/A
+                    div 
+                        h4 State
+                        span#dataState N/A
+        div.row
+            div.col.col-lg-6.col-md-12
+                div(style="max-width: 800px; max-height: 300px;")
+                    canvas#temperatureChart(width="800" height="300")
+            div.col.col-lg-6.col-md-12
+                div(style="max-width: 800px; max-height: 300px;")
+                    canvas#fermentRateChart(width="800" height="300")
+
+    h1 Senden einer Nachricht:
+    button#send Send
+
+
+block css
+    link(rel="stylesheet",href="/styles/dashboard.css")
+
+block js
+    script(src='/js/messenger.min.js')
+    script(src='/js/dashboard.min.js')

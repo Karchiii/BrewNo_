@@ -1,0 +1,16 @@
+mixin userRow(user)
+	tr.section-box.action-edit(data-toggle="modal", data-target="#userModal", data-action="user", data-id=user._id)
+		td.hidden-xs=user.name.first
+		td.hidden-xs=user.name.last
+		td.hidden-xs=user.email
+		td
+			if user.isAdmin&&user.isEditor
+				span='Admin'
+			else if user.isAdmin===false&&user.isEditor
+				span='Editor'
+			else
+				span.editUserOpener='User'
+		td
+			span.action.action-remove(data-action="user", data-id=user._id, data-tooltip="true", title='Remove User')
+				span.glyphicon.glyphicon-trash.list-icon
+				span &nbsp;

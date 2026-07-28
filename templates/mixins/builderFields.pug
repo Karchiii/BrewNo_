@@ -1,0 +1,134 @@
+mixin editableListItem(str,isHighlight,key)
+  .bullet-list-group
+    .bullet-list-group-item
+      if isHighlight
+        span.glyphicon.glyphicon-ok
+      else
+        span.glyphicon.glyphicon-option-horizontal
+    input.bullet-input.bullet-list-group-item(data-id=key,value=str)
+    .bullet-list-group-item
+      a(href="#",data-rel=key,data-role="erase-content",data-toggle="tooltip",title="Delete text")
+        span.glyphicon.glyphicon-remove
+
+mixin builderCustom(val, isRequired, showOverwrite, field)
+  case val.builderType
+    when 'boolean'
+      div.col-xs-12(id='form' + val.name)
+        label.col-xs-12=val.label
+        select(name=val.name).col-xs-12.optionValue.input-sm.form-control
+          if(val.value == true)
+            option false
+            option(selected) true
+          else
+            option(selected) false
+            option true
+    when 'number'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='number' pattern="[0-9]+([.][0-9]+)?" step="1" min="0" name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value oninput="validity.valid||(value='');").optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'int'
+      div.col-xs-6.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='number' pattern="[0-99]" step="1"  name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'text'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='text' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'password'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='password' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'textarea'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        textarea(type='text' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control=val.value
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'url'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='url' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'date'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        div(class="input-group date")
+          input.form-control(type='text' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.value data-provide='datepicker', data-date-format="dd/mm/yyyy", data-date-container='#form' + val.name).optionValue.input-sm.textinput.textInput.form-control
+          div.input-group-addon
+            span.glyphicon.glyphicon-th
+          if(showOverwrite)
+            div.overwriteCheck(name='check-' + val.name)
+              span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when  'select'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        select.col-xs-12.input-sm.optionValue(type='select' id='custom-' + val.label name=val.name value=val.value).form-control
+          each item, index in field
+            if(val.value === item.name || val.value === item.altName)
+              option(value=item.name selected)=item.name
+            else
+              option(value=item.name)=item.name
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'color'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='color' name=val.name required=isRequired data-native-error="Please fill out this field!" value=val.default id='colorpicker').optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        input(type='text' pattern='^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$' value=val.default id='hexcolor')
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    when 'background'
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='text' id=val.name name=val.name required=isRequired data-native-error='Please fill out this field!' value=val.value).gradientPicker.optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        div.col-xs-12.gradX
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+    default
+      div.col-xs-12.form-group(id='form' + val.name)
+        label.col-xs-12.control-label=val.label
+        input(type='text' name=val.name required=isRequired data-native-error='Please fill out this field!' value=val.value).optionValue.col-xs-12.input-sm.textinput.textInput.form-control
+        if(showOverwrite)
+          div.overwriteCheck(name='check-' + val.name)
+            span.glyphicon.glyphicon-ban-circle
+        div.help-block.with-errors
+
+
+mixin builderFields(fieldsStringified, name)
+  -var fields;
+  -try{ fields = JSON.parse(fieldsStringified)} catch (e) { fields = [] }
+
+  select.col-xs-12.optionValue
+    each field in fields
+      if(field.name === name)
+        option(selected)=field.name
+      else
+        option=field.name
