@@ -59,9 +59,12 @@ module.exports = function (app) {
   app.post('/user/:cmd/:id', routes.crud.user);
   /** ********************************************************************* */
 
+    app.get('/test', routes.views.test);
+
   /** ***************** Trash **************************************** */
   app.get('/trash/:section/:cmd', routes.views.trashedSection); // list all trashed items for a given Section
   app.get('/trash/:section/:cmd/:id', routes.crud.trash.updateTrashedItems); // Switch trashed value of an Item for given section
   /** **************************************************************** */
   app.use("/", (req, res) => res.redirect("/overview"));
+
 };

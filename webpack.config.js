@@ -6,13 +6,30 @@ module.exports = {
   entry: {
     base: ['./frontend/js/base.js'],
     externalWindow: ['./frontend/js/utility/customCheckbox.js'],
-    dashboard: ['./frontend/js/utility/actions.js', './frontend/js/utility/customCheckbox.js', './frontend/js/utility/sortLine.js', './frontend/js/views/dashboard.js', './frontend/js/utility/search.js'],
-    user: ['./frontend/js/utility/actions.js', './frontend/js/utility/customCheckbox.js', './frontend/js/utility/sortLine.js', './frontend/js/views/user.js', './frontend/js/utility/search.js'],
+    dashboard: [
+      './frontend/js/utility/actions.js',
+      './frontend/js/utility/customCheckbox.js',
+      './frontend/js/utility/sortLine.js',
+      './frontend/js/views/dashboard.js',
+      './frontend/js/utility/search.js',
+    ],
+    test: ['./frontend/js/views/test.js'],
+    user: [
+      './frontend/js/utility/actions.js',
+      './frontend/js/utility/customCheckbox.js',
+      './frontend/js/utility/sortLine.js',
+      './frontend/js/views/user.js',
+      './frontend/js/utility/search.js',
+    ],
     trash: ['./frontend/js/views/trash.js'],
     overview: ['./frontend/js/views/overview.js'],
-    modalsUser: ['./frontend/js/utility/validator.js', './frontend/js/views/modals/user.js'],
+    modalsUser: [
+      './frontend/js/utility/validator.js',
+      './frontend/js/views/modals/user.js',
+    ],
     messenger: ['./frontend/js/views/messenger.js'],
   },
+
   module: {
     rules: [
       {
@@ -60,12 +77,20 @@ module.exports = {
       },
     ],
   },
+
   resolve: {
     extensions: ['*', '.js'],
     alias: {
-      jquery$: path.resolve(__dirname, 'node_modules', 'jquery', 'dist', 'jquery.js'),
+      jquery$: path.resolve(
+        __dirname,
+        'node_modules',
+        'jquery',
+        'dist',
+        'jquery.js'
+      ),
     },
   },
+
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -79,11 +104,13 @@ module.exports = {
     },
     occurrenceOrder: true,
   },
+
   output: {
     filename: 'js/[name].min.js',
     chunkFilename: 'js/[name].min.js',
     path: `${__dirname}/public`,
   },
+
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -92,13 +119,12 @@ module.exports = {
       'window.$': 'jquery',
     }),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
       filename: 'styles/[name].css',
       chunkFilename: '[name].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
+      ignoreOrder: false,
     }),
   ],
+
   externals: {
     sortablejs: {
       jquery: 'jQuery',
