@@ -99,6 +99,22 @@ const schema = {
     showBuilder: false,
     builderType: 'number',
   },
+  temperature_top_2: {
+    label: 'Top Pot Sensor 2 Temperature',
+    type: Types.Number,
+    initial: true,
+    required: false,
+    showBuilder: false,
+    builderType: 'number',
+  },
+  // Actuator on/off state, reported back by the device so the UI reflects
+  // real state (e.g. after a page reload) instead of only the last click.
+  heater_top: { label: 'Heater Top', type: Types.Boolean, initial: true, required: false },
+  cooler_top: { label: 'Cooler Top', type: Types.Boolean, initial: true, required: false },
+  heater_bottom: { label: 'Heater Bottom', type: Types.Boolean, initial: true, required: false },
+  cooler_bottom: { label: 'Cooler Bottom', type: Types.Boolean, initial: true, required: false },
+  pump: { label: 'Pump', type: Types.Boolean, initial: true, required: false },
+  mixer: { label: 'Mixer', type: Types.Boolean, initial: true, required: false },
 };
 
 const Status = new keystone.List('Status', { track: true });
