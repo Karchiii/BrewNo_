@@ -67,3 +67,8 @@ Anschließened kann mittels \
 node keystone
 ```
 die Webanwendung gestartet werden.
+
+
+
+## MQTT 
+pub -t brewery/1/status -m '{"time_stamp":"12:45:27","date_stamp":"10.05.2026","brew_name":"Pale Ale","brew_stage":"Cold Crash","measure_interval":60,"state":"cooling","temperature":10,"temperature_top_2":12,}'
