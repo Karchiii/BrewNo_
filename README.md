@@ -67,3 +67,6 @@ Anschließened kann mittels \
 node keystone
 ```
 die Webanwendung gestartet werden.
+
+### publish command 
+pub -t brewery/1/status -m '{"room_temperature":16.6,"temperature_top_2":67.4,"temperature":61.2}'
