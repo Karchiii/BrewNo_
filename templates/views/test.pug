@@ -1,0 +1,213 @@
+extends ../layouts/default
+
+block content
+
+    style.
+        /* ================= LAYOUT-BASIS ================= */
+        .fullscreen-container {
+            height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            background-color: #f4f7f6; /* Leichter, moderner Hintergrund */
+        }
+        .flex-row-50 {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 10px 0;
+        }
+        .flex-row-50:last-child { border-bottom: none; }
+        .flex-col-33 {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        .chart-wrapper {
+            width: 100%;
+            flex: 1;
+            position: relative;
+            min-height: 0;
+            margin-top: 5px;
+        }
+
+        /* ================= NEUES KARTEN-DESIGN ================= */
+        .ui-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ui-card:last-child { margin-bottom: 0; }
+        
+        .card-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 1px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* ================= SENSOREN & STEUERUNG ================= */
+        .sensor-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1;
+            margin: 5px 0;
+        }
+        .sensor-limit {
+            font-size: 12px;
+            color: #999;
+        }
+        .actuator-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .actuator-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .actuator-item .btn {
+            width: 100%; /* Macht alle Buttons exakt gleich breit */
+            font-weight: bold;
+        }
+        .actuator-label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+    div.hidden#brews(
+        data-brews=brews
+        data-number=visibleDatapoints
+        data-brew-id=brewId
+    )
+
+    div.fullscreen-container#userTabContent.boiler.test-boiler
+
+        // ================== TOPF OBEN (Obere 50%) ==================
+        div.flex-row-50.topf-row
+
+            // 1. Linkes Drittel: Diagramm (bleibt wie es war)
+            div.flex-col-33
+                h3(style="margin: 0; color: #333;") Topf oben
+                div.chart-wrapper
+                    canvas#temperatureChartTop
+
+            // 2. Mittleres Drittel: Steuerung
+            div.flex-col-33
+                // Karte: Solltemperatur
+                div.ui-card
+                    h4.card-title Solltemperatur
+                    div.btn-group
+                        button.btn.btn-default.btn-lg#tempTopMinus -
+                        span.btn.btn-default.btn-lg.temp-display#targetTempTop(disabled, style="min-width: 80px; font-weight: bold;") 20°C
+                        button.btn.btn-default.btn-lg#tempTopPlus +
+                
+                // Karte: Aktoren
+                div.ui-card
+                    h4.card-title Steuerung
+                    div.actuator-row
+                        div.actuator-item
+                            span.actuator-label Heizung
+                            button.btn.btn-danger#heaterTopToggle AUS
+                        div.actuator-item
+                            span.actuator-label Kühlung 
+                            button.btn.btn-danger#coolerTopToggle AUS
+                    div.actuator-row
+                        div.actuator-item
+                            span.actuator-label Pumpe
+                            button.btn.btn-danger#pumpToggle AUS
+                        div.actuator-item
+                            span.actuator-label Rührwerk
+                            button.btn.btn-danger#mixerToggle AUS
+
+            // 3. Rechtes Drittel: Zwei Thermometer
+            div.flex-col-33
+                div.ui-card(style="height: 100%; justify-content: space-evenly;")
+                    h4.card-title Aktuelle Temperatur
+                    
+                    div(style="display: flex; width: 100%; justify-content: space-around; align-items: center;")
+                        // Sensor 1
+                        div.text-center
+                            div.sensor-value#dataTempRoom --°C
+                            div.sensor-limit Sensor 1
+                        
+                        // Optischer Trenner
+                        div(style="width: 1px; height: 50px; background-color: #ddd;")
+                        
+                        // Sensor 2
+                        div.text-center
+                            div.sensor-value#dataTempTop2 --°C
+                            div.sensor-limit Sensor 2
+                            
+                    div.sensor-limit(style="margin-top: 15px;") Max. Temperatur: 100°C
+
+
+        // ================== TOPF UNTEN (Untere 50%) ==================
+        div.flex-row-50.topf-row
+
+            // 1. Linkes Drittel: Diagramm
+            div.flex-col-33
+                h3(style="margin: 0; color: #333;") Topf unten
+                div.chart-wrapper
+                    canvas#temperatureChartBottom
+
+            // 2. Mittleres Drittel: Steuerung
+            div.flex-col-33
+                // Karte: Solltemperatur
+                div.ui-card
+                    h4.card-title Solltemperatur
+                    div.btn-group
+                        button.btn.btn-default.btn-lg#tempBottomMinus -
+                        span.btn.btn-default.btn-lg.temp-display#targetTempBottom(disabled, style="min-width: 80px; font-weight: bold;") 20°C
+                        button.btn.btn-default.btn-lg#tempBottomPlus +
+                
+                // Karte: Aktoren
+                div.ui-card
+                    h4.card-title Steuerung
+                    div.actuator-row
+                        div.actuator-item
+                            span.actuator-label Heizung
+                            button.btn.btn-danger#heaterBottomToggle AUS
+                        div.actuator-item
+                            span.actuator-label Kühlung 
+                            button.btn.btn-danger#coolerBottomToggle AUS
+
+            // 3. Rechtes Drittel: Ein Thermometer
+            div.flex-col-33
+                div.ui-card(style="height: 100%; justify-content: center;")
+                    h4.card-title Aktuelle Temperatur
+                    
+                    div.text-center(style="margin: 20px 0;")
+                        div.sensor-value#dataTempBoiler --°C
+                        div.sensor-limit Sensor Unten
+                        
+                    div.sensor-limit(style="margin-top: 15px;") Max. Temperatur: 100°C
+
+block css
+    link(rel="stylesheet", href="/styles/dashboard.css")
+
+block js
+    //script(src="/js/test.js")
+    script(src="/js/test.min.js")
