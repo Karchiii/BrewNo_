@@ -37,6 +37,8 @@ exports.initLocals = async function(req, res, next) {
    */
   res.locals.navLinks = [
     { label: 'Dashboard Overview', key: 'overview', href: '/overview' },
+    { label: 'Test', key: 'test', href: '/test' },
+    { label: 'Sonstiges', key: 'sonstiges', href: '/sonstiges' },
     ...fermenterLinks
   ];
   /**

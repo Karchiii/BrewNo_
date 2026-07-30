@@ -42,6 +42,8 @@ module.exports = function (app) {
   
   // Basic
   app.get('/overview', routes.views.overview);
+  app.get('/sonstiges', routes.views.sonstiges);
+  app.get('/test', routes.views.test);
   app.get('/dashboard/:brewId', routes.views.dashboard); // Fermenter Dashboard
   app.all('/messenger/:brewId', routes.views.messenger);//Message Test
 
