@@ -107,8 +107,7 @@ const schema = {
     showBuilder: false,
     builderType: 'number',
   },
-  // Actuator on/off state, reported back by the device so the UI reflects
-  // real state (e.g. after a page reload) instead of only the last click.
+
   heater_top: { label: 'Heater Top', type: Types.Boolean, initial: true, required: false },
   cooler_top: { label: 'Cooler Top', type: Types.Boolean, initial: true, required: false },
   heater_bottom: { label: 'Heater Bottom', type: Types.Boolean, initial: true, required: false },

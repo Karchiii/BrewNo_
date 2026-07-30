@@ -1,4 +1,5 @@
 /* public/js/test.js */
+import Chart from "chart.js/auto";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -9,6 +10,54 @@ document.addEventListener("DOMContentLoaded", () => {
     // call so the backend knows which physical brew a command belongs to.
     const brewsEl = document.getElementById("brews");
     const brewId = brewsEl?.dataset.brewId;
+    const maxDatapointsVisible = brewsEl?.dataset.number;
+
+    /* ---------------- Diagramme ---------------- */
+
+    function createTemperatureChart(canvasId, datasetLabels, colors) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return null;
+        return new Chart(canvas, {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: datasetLabels.map((label, i) => ({
+                    label,
+                    backgroundColor: colors[i],
+                    borderColor: colors[i],
+                    data: [],
+                })),
+            },
+            options: {
+                animation: false,
+                scales: { y: { beginAtZero: false } },
+            },
+        });
+    }
+
+    // Topf oben: eine Chart mit zwei Linien (Sensor 1 & Sensor 2).
+    const temperatureChartTop = createTemperatureChart(
+        "temperatureChartTop",
+        ["Sensor 1", "Sensor 2"],
+        ["rgb(215, 0, 45)", "rgb(72, 173, 216)"]
+    );
+    // Topf unten: eine Chart mit einer Linie (Boiler-Sensor).
+    const temperatureChartBottom = createTemperatureChart(
+        "temperatureChartBottom",
+        ["Sensor Unten"],
+        ["rgb(46, 148, 85)"]
+    );
+
+    function pushDatapoint(chart, timeStamp, values) {
+        if (!chart) return;
+        chart.data.labels.push(timeStamp);
+        values.forEach((value, i) => chart.data.datasets[i].data.push(value));
+        while (chart.data.labels.length > maxDatapointsVisible) {
+            chart.data.labels.shift();
+            chart.data.datasets.forEach((dataset) => dataset.data.shift());
+        }
+        chart.update();
+    }
 
     // POSTs a command to routes/mqtt/mqttSend.js, which publishes it via MQTT.
     // Resolves to true/false so callers can decide whether to update the UI.
@@ -168,6 +217,9 @@ document.addEventListener("DOMContentLoaded", () => {
         setTemperature("dataTempTop2", payload.temperature_top_2);
         setTemperature("dataTempBoiler", payload.temperature);
 
+        pushDatapoint(temperatureChartTop, payload.time_stamp, [payload.room_temperature, payload.temperature_top_2]);
+        pushDatapoint(temperatureChartBottom, payload.time_stamp, [payload.temperature]);
+
         Object.entries(actuatorButtonIds).forEach(([field, buttonId]) => {
             if (payload[field] === undefined) return;
             const button = document.getElementById(buttonId);
@@ -178,14 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Preload the most recent known status (routes/views/test.js already
-    // queries this) so the page shows real values immediately, instead of
-    // waiting for the next MQTT message to arrive.
+    // Preload known history (routes/views/test.js already queries this) so
+    // the charts and sensor readouts show real data immediately, instead of
+    // waiting for new MQTT messages to arrive. The query sorts newest-first,
+    // so reverse it to plot the charts left-to-right in chronological order.
     if (brewsEl?.dataset.brews) {
         const brews = JSON.parse(brewsEl.dataset.brews);
-        if (brews.length > 0) {
-            processStatus(brews[0]);
-        }
+        [...brews].reverse().forEach(processStatus);
     }
 
     // Live updates: the server re-broadcasts every incoming MQTT status
