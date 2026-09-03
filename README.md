@@ -67,3 +67,22 @@ Anschließened kann mittels \
 node keystone
 ```
 die Webanwendung gestartet werden.
+
+## MQTT Verbindung Einrichtung
+
+1. Firewall-Einstellungen für Port 1883 ändern mit folgendem Befehl:
+   ```
+   netsh advfirewall firewall add rule name="Mosquitto MQTT 1883" dir=in action=allow protocol=TCP localport=1883
+   ```
+
+2. In der `mosquitto.conf`-Datei (zu finden unter `C:\Program Files\Mosquitto`) folgende zwei Zeilen hinzufügen:
+   ```
+   listener 1883
+   allow_anonymous true
+   ```
+
+3. Mosquitto mit folgendem Befehl starten:
+   ```
+   mosquitto -v -c "C:\Program Files\Mosquitto\mosquitto.conf"
+   ```
+
