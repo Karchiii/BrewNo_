@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             button.disabled = true;
 
             try {
-                const commandSent = await sendCommand(cmd, turnOn ? "on" : "off");
+                const commandSent = await sendCommand(cmd, turnOn ? "1" : "0");
                 if (commandSent) setActuatorButtonState(button, turnOn);
             } finally {
                 button.disabled = false;
