@@ -193,10 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     [
-        ["heaterTopToggle", "setHeaterTop"],
+        ["heaterTop1Toggle", "setHeaterTop1"],
+        ["heaterTop2Toggle", "setHeaterTop2"],
         ["pumpToggle", "setPump"],
         ["mixerToggle", "setMixer"],
-        ["heaterBottomToggle", "setHeaterBottom"],
+        ["heaterBottom1Toggle", "setHeaterBottom1"],
     ].forEach(([id, cmd]) => toggleButton(id, cmd));
 
     /* ---------------- Sensoren (Live-Daten via MQTT) ---------------- */
@@ -212,22 +213,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const actuatorButtonIds = {
-        heater_top: "heaterTopToggle",
+        heater_top_1: "heaterTop1Toggle",
+        heater_top_2: "heaterTop2Toggle",
         pump: "pumpToggle",
         mixer: "mixerToggle",
-        heater_bottom: "heaterBottomToggle",
+        heater_bottom_1: "heaterBottom1Toggle",
     };
 
     // Applies a status payload (from MQTT via socket.io, see keystone.js) to
     // the page: sensor readouts plus actuator state as last reported by the
     // device itself, not just what the last local click assumed.
     function processStatus(payload) {
-        setTemperature("dataTempRoom", payload.room_temperature);
+        setTemperature("dataTempRoom", payload.temperature_top_1);
         setTemperature("dataTempTop2", payload.temperature_top_2);
-        setTemperature("dataTempBoiler", payload.temperature);
+        setTemperature("dataTempBoiler", payload.temperature_bottom_1);
 
-        pushDatapoint(temperatureChartTop, payload.time_stamp, [payload.room_temperature, payload.temperature_top_2]);
-        pushDatapoint(temperatureChartBottom, payload.time_stamp, [payload.temperature]);
+        pushDatapoint(temperatureChartTop, payload.time_stamp, [payload.temperature_top_1, payload.temperature_top_2]);
+        pushDatapoint(temperatureChartBottom, payload.time_stamp, [payload.temperature_bottom_1]);
 
         Object.entries(actuatorButtonIds).forEach(([field, buttonId]) => {
             if (payload[field] === undefined) return;

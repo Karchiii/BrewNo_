@@ -168,10 +168,13 @@ block content
                 // Karte: Aktoren
                 div.ui-card
                     h4.card-title Steuerung
-                    div.actuator-row.actuator-row-single
+                    div.actuator-row
                         div.actuator-item
-                            span.actuator-label Heizung
-                            button.btn.btn-danger#heaterTopToggle AUS
+                            span.actuator-label Heizung 1
+                            button.btn.btn-danger#heaterTop1Toggle AUS
+                        div.actuator-item
+                            span.actuator-label Heizung 2
+                            button.btn.btn-danger#heaterTop2Toggle AUS
                     div.actuator-row
                         div.actuator-item
                             span.actuator-label Pumpe
@@ -189,13 +192,13 @@ block content
                         // Sensor 1
                         div.sensor-reading
                             div.sensor-value#dataTempRoom --°C
-                            div.sensor-description Raumtemperatur
+                            div.sensor-description Temperatur oben 1
                             div.sensor-limit Sensor 1
                         
                         // Sensor 2
                         div.sensor-reading
                             div.sensor-value#dataTempTop2 --°C
-                            div.sensor-description Temperatur oben
+                            div.sensor-description Temperatur oben 2
                             div.sensor-limit Sensor 2
                             
                     div.sensor-limit(style="margin-top: 15px;") Max. Temperatur: 100°C
@@ -225,8 +228,8 @@ block content
                     h4.card-title Steuerung
                     div.actuator-row.actuator-row-single
                         div.actuator-item
-                            span.actuator-label Heizung
-                            button.btn.btn-danger#heaterBottomToggle AUS
+                            span.actuator-label Heizung 1
+                            button.btn.btn-danger#heaterBottom1Toggle AUS
 
             // 3. Rechtes Drittel: Ein Thermometer
             div.flex-col-33

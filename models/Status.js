@@ -99,6 +99,14 @@ const schema = {
     showBuilder: false,
     builderType: 'number',
   },
+  temperature_top_1: {
+    label: 'Top Pot Sensor 1 Temperature',
+    type: Types.Number,
+    initial: true,
+    required: false,
+    showBuilder: false,
+    builderType: 'number',
+  },
   temperature_top_2: {
     label: 'Top Pot Sensor 2 Temperature',
     type: Types.Number,
@@ -107,9 +115,18 @@ const schema = {
     showBuilder: false,
     builderType: 'number',
   },
+  temperature_bottom_1: {
+    label: 'Bottom Pot Sensor 1 Temperature',
+    type: Types.Number,
+    initial: true,
+    required: false,
+    showBuilder: false,
+    builderType: 'number',
+  },
 
-  heater_top: { label: 'Heater Top', type: Types.Boolean, initial: true, required: false },
-  heater_bottom: { label: 'Heater Bottom', type: Types.Boolean, initial: true, required: false },
+  heater_top_1: { label: 'Top Pot Heater 1', type: Types.Boolean, initial: true, required: false },
+  heater_top_2: { label: 'Top Pot Heater 2', type: Types.Boolean, initial: true, required: false },
+  heater_bottom_1: { label: 'Bottom Pot Heater 1', type: Types.Boolean, initial: true, required: false },
   pump: { label: 'Pump', type: Types.Boolean, initial: true, required: false },
   mixer: { label: 'Mixer', type: Types.Boolean, initial: true, required: false },
 };

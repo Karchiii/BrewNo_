@@ -71,4 +71,18 @@ die Webanwendung gestartet werden.
 
 
 ## MQTT 
-pub -t brewery/1/status -m '{"time_stamp":"12:45:27","date_stamp":"10.05.2026","brew_name":"Pale Ale","brew_stage":"Cold Crash","measure_interval":60,"state":"cooling","temperature":10,"temperature_top_2":12,}'
+pub -t brewery/1/status -m '{"time_stamp":"12:45:27","date_stamp":"10.05.2026","measure_interval":60,"temperature_top_1":22,"temperature_top_2":12,"temperature_bottom_1":10}'
+
+Die Steuerseite veröffentlicht Befehle für die Solltemperaturen und Aktoren auf diesen Topics (Brew-ID `1`):
+
+```text
+brewery/1/temperature/top/target/set
+brewery/1/temperature/bottom/target/set
+brewery/1/heater/top_1/set
+brewery/1/heater/top_2/set
+brewery/1/heater/bottom_1/set
+brewery/1/pump/set
+brewery/1/mixer/set
+```
+
+Die Temperatur-Topics enthalten eine Zahl; die Aktor-Topics enthalten `on` oder `off`. Das Arduino veröffentlicht den Zustand der drei Heizungen als `heater_top_1`, `heater_top_2` und `heater_bottom_1` im Status-JSON.
