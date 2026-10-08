@@ -38,13 +38,15 @@ mqttSend = (req, res) => { //setTs
       break;
 
     /* ---- test.js commands: per-brew, per-pot (top/bottom) ----
-       Topic shape: brewery/<brewId>/<metric>/[<zone>/]<setting>/set */
+       Topic shape: flat names, matching what BrewNo.ino actually subscribes to
+       (the firmware has no brewery/<brewId>/... hierarchy; brewId is only
+       validated here, not part of the topic, since there's one physical device). */
     case 'setTargetTemperatureTop':
     case 'setTargetTemperatureBottom': {
       const brewId = parseBrewId(options.brewId);
       if (brewId === null) return sendResponse(req, res, true, 'Invalid brewId!');
-      const zone = req.params.cmd === 'setTargetTemperatureTop' ? 'top' : 'bottom';
-      keystone.get('mqtt').publish(`brewery/${brewId}/temperature/${zone}/target/set`, options.value.toString());
+      const topic = req.params.cmd === 'setTargetTemperatureTop' ? 'top_ts' : 'bottom_ts';
+      keystone.get('mqtt').publish(topic, options.value.toString());
       sendResponse(req, res, false, 'MQTT Message sent!');
       break;
     }
@@ -53,12 +55,12 @@ mqttSend = (req, res) => { //setTs
     case 'setHeaterBottom2': {
       const brewId = parseBrewId(options.brewId);
       if (brewId === null) return sendResponse(req, res, true, 'Invalid brewId!');
-      const heater = {
-        setHeaterTop1: 'top_1',
-        setHeaterBottom1: 'bottom_1',
-        setHeaterBottom2: 'bottom_2',
+      const topic = {
+        setHeaterTop1: 'heater_top_1',
+        setHeaterBottom1: 'heater_bottom_1',
+        setHeaterBottom2: 'heater_bottom_2',
       }[req.params.cmd];
-      keystone.get('mqtt').publish(`brewery/${brewId}/heater/${heater}/set`, options.value.toString());
+      keystone.get('mqtt').publish(topic, options.value.toString());
       sendResponse(req, res, false, 'MQTT Message sent!');
       break;
     }
@@ -66,8 +68,8 @@ mqttSend = (req, res) => { //setTs
     case 'setMixer': {
       const brewId = parseBrewId(options.brewId);
       if (brewId === null) return sendResponse(req, res, true, 'Invalid brewId!');
-      const actuator = req.params.cmd === 'setPump' ? 'pump' : 'mixer';
-      keystone.get('mqtt').publish(`brewery/${brewId}/${actuator}/set`, options.value.toString());
+      const topic = req.params.cmd === 'setPump' ? 'pump' : 'mixer';
+      keystone.get('mqtt').publish(topic, options.value.toString());
       sendResponse(req, res, false, 'MQTT Message sent!');
       break;
     }

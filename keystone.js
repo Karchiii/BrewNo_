@@ -47,6 +47,8 @@ async function startMQTT() {
   await mqttClient.subscribe(['brewery/+/status'], { qos: 1 });
 
   mqttClient.on('message', async (topic, message) => {
+    console.log(`[MQTT RECEIVED] ${topic} -> ${message.toString()}`);
+
     const brewId = +(topic.replace('brewery/', "").replace("/status", ""));
     const payload = JSON.parse(message.toString());
     payload.brewId = brewId;
