@@ -26,11 +26,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     backgroundColor: colors[i],
                     borderColor: colors[i],
                     data: [],
+                    borderWidth: 2,
+                    borderDash: i === 1 ? [6, 4] : [],
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHitRadius: 10,
+                    tension: 0.2,
+                    spanGaps: true,
                 })),
             },
             options: {
                 animation: false,
-                scales: { y: { beginAtZero: false } },
+                interaction: { mode: "index", intersect: false },
+                plugins: {
+                    legend: {
+                        display: datasetLabels.length > 1,
+                        position: "bottom",
+                        labels: { boxWidth: 12, padding: 10, usePointStyle: true },
+                    },
+                    tooltip: { mode: "index", intersect: false },
+                },
+                scales: {
+                    x: {
+                        ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0 },
+                    },
+                    y: {
+                        beginAtZero: false,
+                        ticks: { maxTicksLimit: 5 },
+                    },
+                },
             },
         });
     }
@@ -139,54 +163,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ---------------- Aktoren ---------------- */
 
-    function toggleButton(id, cmd) {
-
-    const button = document.getElementById(id);
-
-    if (!button) {
-        console.log(id + " nicht gefunden");
-        return;
+    function setActuatorButtonState(button, enabled) {
+        button.textContent = enabled ? "EIN" : "AUS";
+        button.classList.toggle("btn-success", enabled);
+        button.classList.toggle("btn-danger", !enabled);
     }
 
-    console.log(id + " Listener gesetzt");
+    function toggleButton(id, cmd, opposite = null) {
+        const button = document.getElementById(id);
 
-    button.onclick = () => {
+        if (!button) {
+            console.log(id + " nicht gefunden");
+            return;
+        }
 
-        const eingeschaltet = button.classList.contains("btn-success");
+        const oppositeButton = opposite
+            ? document.getElementById(opposite.id)
+            : null;
 
-        // Only flip the button once the backend confirms the MQTT message
-        // went out, so a failed request can't desync the button from the device.
-        sendCommand(cmd, eingeschaltet ? "off" : "on").then((ok) => {
+        button.onclick = async () => {
+            if (button.disabled || (oppositeButton && oppositeButton.disabled)) return;
 
-            if (!ok) return;
+            const turnOn = !button.classList.contains("btn-success");
+            button.disabled = true;
+            if (oppositeButton) oppositeButton.disabled = true;
 
-            if (eingeschaltet) {
+            try {
+                // Always send OFF to the paired actuator first. This also
+                // covers a stale or not-yet-loaded status on the page.
+                if (turnOn && oppositeButton) {
+                    const oppositeOffSent = await sendCommand(opposite.cmd, "off");
+                    if (!oppositeOffSent) return;
+                    setActuatorButtonState(oppositeButton, false);
+                }
 
-                button.textContent = "AUS";
-                button.classList.remove("btn-success");
-                button.classList.add("btn-danger");
-
-            } else {
-
-                button.textContent = "EIN";
-                button.classList.remove("btn-danger");
-                button.classList.add("btn-success");
-
+                const commandSent = await sendCommand(cmd, turnOn ? "on" : "off");
+                if (commandSent) setActuatorButtonState(button, turnOn);
+            } finally {
+                button.disabled = false;
+                if (oppositeButton) oppositeButton.disabled = false;
             }
-
-        });
-
-    };
-}
+        };
+    }
 
     [
-        ["heaterTopToggle", "setHeaterTop"],
-        ["coolerTopToggle", "setCoolerTop"],
+        ["heaterTopToggle", "setHeaterTop", { id: "coolerTopToggle", cmd: "setCoolerTop" }],
+        ["coolerTopToggle", "setCoolerTop", { id: "heaterTopToggle", cmd: "setHeaterTop" }],
         ["pumpToggle", "setPump"],
         ["mixerToggle", "setMixer"],
-        ["heaterBottomToggle", "setHeaterBottom"],
-        ["coolerBottomToggle", "setCoolerBottom"],
-    ].forEach(([id, cmd]) => toggleButton(id, cmd));
+        ["heaterBottomToggle", "setHeaterBottom", { id: "coolerBottomToggle", cmd: "setCoolerBottom" }],
+        ["coolerBottomToggle", "setCoolerBottom", { id: "heaterBottomToggle", cmd: "setHeaterBottom" }],
+    ].forEach(([id, cmd, opposite]) => toggleButton(id, cmd, opposite));
 
     /* ---------------- Sensoren (Live-Daten via MQTT) ---------------- */
 

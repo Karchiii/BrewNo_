@@ -16,14 +16,15 @@ block content
         .flex-row-50 {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             border-bottom: 2px solid #e0e0e0;
             padding: 10px 0;
         }
         .flex-row-50:last-child { border-bottom: none; }
         .flex-col-33 {
             flex: 1;
-            height: 100%;
+            min-width: 0;
+            min-height: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,7 +34,8 @@ block content
         }
         .chart-wrapper {
             width: 100%;
-            flex: 1;
+            height: 75%;
+            flex: 0 1 75%;
             position: relative;
             min-height: 0;
             margin-top: 5px;
@@ -70,10 +72,39 @@ block content
             line-height: 1;
             margin: 5px 0;
         }
+        #dataTempRoom.sensor-value,
+        #dataTempBoiler.sensor-value {
+            font-size: 3rem !important;
+            font-weight: bold !important;
+            line-height: 1 !important;
+        }
         .sensor-limit {
             font-size: 12px;
             color: #999;
         }
+        .sensor-readings {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+            justify-content: center;
+        }
+        .sensor-reading {
+            flex: 0 1 50%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px 8px;
+        }
+        .sensor-description {
+            min-height: 2.4em;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+        .sensor-card { justify-content: center; }
         .actuator-row {
             display: flex;
             width: 100%;
@@ -90,6 +121,14 @@ block content
         .actuator-item .btn {
             width: 100%; /* Macht alle Buttons exakt gleich breit */
             font-weight: bold;
+        }
+        .actuator-item .btn-success,
+        .actuator-item .btn-success:hover,
+        .actuator-item .btn-success:focus,
+        .actuator-item .btn-success:active {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
         }
         .actuator-label {
             font-size: 13px;
@@ -144,21 +183,20 @@ block content
 
             // 3. Rechtes Drittel: Zwei Thermometer
             div.flex-col-33
-                div.ui-card(style="height: 100%; justify-content: space-evenly;")
+                div.ui-card.sensor-card
                     h4.card-title Aktuelle Temperatur
                     
-                    div(style="display: flex; width: 100%; justify-content: space-around; align-items: center;")
+                    div.sensor-readings
                         // Sensor 1
-                        div.text-center
+                        div.sensor-reading
                             div.sensor-value#dataTempRoom --°C
+                            div.sensor-description Raumtemperatur
                             div.sensor-limit Sensor 1
                         
-                        // Optischer Trenner
-                        div(style="width: 1px; height: 50px; background-color: #ddd;")
-                        
                         // Sensor 2
-                        div.text-center
+                        div.sensor-reading
                             div.sensor-value#dataTempTop2 --°C
+                            div.sensor-description Temperatur oben
                             div.sensor-limit Sensor 2
                             
                     div.sensor-limit(style="margin-top: 15px;") Max. Temperatur: 100°C
@@ -196,12 +234,14 @@ block content
 
             // 3. Rechtes Drittel: Ein Thermometer
             div.flex-col-33
-                div.ui-card(style="height: 100%; justify-content: center;")
+                div.ui-card.sensor-card
                     h4.card-title Aktuelle Temperatur
                     
-                    div.text-center(style="margin: 20px 0;")
-                        div.sensor-value#dataTempBoiler --°C
-                        div.sensor-limit Sensor Unten
+                    div.sensor-readings
+                        div.sensor-reading
+                            div.sensor-value#dataTempBoiler --°C
+                            div.sensor-description Temperatur unten
+                            div.sensor-limit Sensor 3
                         
                     div.sensor-limit(style="margin-top: 15px;") Max. Temperatur: 100°C
 
