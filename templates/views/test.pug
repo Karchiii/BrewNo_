@@ -168,13 +168,10 @@ block content
                 // Karte: Aktoren
                 div.ui-card
                     h4.card-title Steuerung
-                    div.actuator-row
+                    div.actuator-row.actuator-row-single
                         div.actuator-item
                             span.actuator-label Heizung 1
                             button.btn.btn-danger#heaterTop1Toggle AUS
-                        div.actuator-item
-                            span.actuator-label Heizung 2
-                            button.btn.btn-danger#heaterTop2Toggle AUS
                     div.actuator-row
                         div.actuator-item
                             span.actuator-label Pumpe
@@ -226,10 +223,13 @@ block content
                 // Karte: Aktoren
                 div.ui-card
                     h4.card-title Steuerung
-                    div.actuator-row.actuator-row-single
+                    div.actuator-row
                         div.actuator-item
                             span.actuator-label Heizung 1
                             button.btn.btn-danger#heaterBottom1Toggle AUS
+                        div.actuator-item
+                            span.actuator-label Heizung 2
+                            button.btn.btn-danger#heaterBottom2Toggle AUS
 
             // 3. Rechtes Drittel: Ein Thermometer
             div.flex-col-33
@@ -249,4 +249,4 @@ block css
 
 block js
     //script(src="/js/test.js")
-    script(src="/js/test.min.js")
+    script(src="/js/test.min.js?v=20261008-heaters")

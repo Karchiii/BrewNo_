@@ -6,6 +6,6 @@
   "temperature_top_2": 12,
   "temperature_bottom_1": 10,
   "heater_top_1": false,
-  "heater_top_2": false,
-  "heater_bottom_1": false
+  "heater_bottom_1": false,
+  "heater_bottom_2": false
 }

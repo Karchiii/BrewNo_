@@ -79,10 +79,10 @@ Die Steuerseite veröffentlicht Befehle für die Solltemperaturen und Aktoren au
 brewery/1/temperature/top/target/set
 brewery/1/temperature/bottom/target/set
 brewery/1/heater/top_1/set
-brewery/1/heater/top_2/set
 brewery/1/heater/bottom_1/set
+brewery/1/heater/bottom_2/set
 brewery/1/pump/set
 brewery/1/mixer/set
 ```
 
-Die Temperatur-Topics enthalten eine Zahl; die Aktor-Topics enthalten `on` oder `off`. Das Arduino veröffentlicht den Zustand der drei Heizungen als `heater_top_1`, `heater_top_2` und `heater_bottom_1` im Status-JSON.
+Die Temperatur-Topics enthalten eine Zahl; die Aktor-Topics enthalten `on` oder `off`. Das Arduino veröffentlicht den Zustand der drei Heizungen als `heater_top_1`, `heater_bottom_1` und `heater_bottom_2` im Status-JSON.

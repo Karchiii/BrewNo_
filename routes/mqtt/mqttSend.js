@@ -49,14 +49,14 @@ mqttSend = (req, res) => { //setTs
       break;
     }
     case 'setHeaterTop1':
-    case 'setHeaterTop2':
-    case 'setHeaterBottom1': {
+    case 'setHeaterBottom1':
+    case 'setHeaterBottom2': {
       const brewId = parseBrewId(options.brewId);
       if (brewId === null) return sendResponse(req, res, true, 'Invalid brewId!');
       const heater = {
         setHeaterTop1: 'top_1',
-        setHeaterTop2: 'top_2',
         setHeaterBottom1: 'bottom_1',
+        setHeaterBottom2: 'bottom_2',
       }[req.params.cmd];
       keystone.get('mqtt').publish(`brewery/${brewId}/heater/${heater}/set`, options.value.toString());
       sendResponse(req, res, false, 'MQTT Message sent!');

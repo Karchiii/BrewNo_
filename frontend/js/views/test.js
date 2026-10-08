@@ -194,10 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     [
         ["heaterTop1Toggle", "setHeaterTop1"],
-        ["heaterTop2Toggle", "setHeaterTop2"],
         ["pumpToggle", "setPump"],
         ["mixerToggle", "setMixer"],
         ["heaterBottom1Toggle", "setHeaterBottom1"],
+        ["heaterBottom2Toggle", "setHeaterBottom2"],
     ].forEach(([id, cmd]) => toggleButton(id, cmd));
 
     /* ---------------- Sensoren (Live-Daten via MQTT) ---------------- */
@@ -214,10 +214,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const actuatorButtonIds = {
         heater_top_1: "heaterTop1Toggle",
-        heater_top_2: "heaterTop2Toggle",
         pump: "pumpToggle",
         mixer: "mixerToggle",
         heater_bottom_1: "heaterBottom1Toggle",
+        heater_bottom_2: "heaterBottom2Toggle",
     };
 
     // Applies a status payload (from MQTT via socket.io, see keystone.js) to

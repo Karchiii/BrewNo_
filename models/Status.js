@@ -125,8 +125,8 @@ const schema = {
   },
 
   heater_top_1: { label: 'Top Pot Heater 1', type: Types.Boolean, initial: true, required: false },
-  heater_top_2: { label: 'Top Pot Heater 2', type: Types.Boolean, initial: true, required: false },
   heater_bottom_1: { label: 'Bottom Pot Heater 1', type: Types.Boolean, initial: true, required: false },
+  heater_bottom_2: { label: 'Bottom Pot Heater 2', type: Types.Boolean, initial: true, required: false },
   pump: { label: 'Pump', type: Types.Boolean, initial: true, required: false },
   mixer: { label: 'Mixer', type: Types.Boolean, initial: true, required: false },
 };
