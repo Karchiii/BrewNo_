@@ -109,9 +109,7 @@ const schema = {
   },
 
   heater_top: { label: 'Heater Top', type: Types.Boolean, initial: true, required: false },
-  cooler_top: { label: 'Cooler Top', type: Types.Boolean, initial: true, required: false },
   heater_bottom: { label: 'Heater Bottom', type: Types.Boolean, initial: true, required: false },
-  cooler_bottom: { label: 'Cooler Bottom', type: Types.Boolean, initial: true, required: false },
   pump: { label: 'Pump', type: Types.Boolean, initial: true, required: false },
   mixer: { label: 'Mixer', type: Types.Boolean, initial: true, required: false },
 };

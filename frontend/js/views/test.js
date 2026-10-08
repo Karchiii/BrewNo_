@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.classList.toggle("btn-danger", !enabled);
     }
 
-    function toggleButton(id, cmd, opposite = null) {
+    function toggleButton(id, cmd) {
         const button = document.getElementById(id);
 
         if (!button) {
@@ -177,43 +177,27 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const oppositeButton = opposite
-            ? document.getElementById(opposite.id)
-            : null;
-
         button.onclick = async () => {
-            if (button.disabled || (oppositeButton && oppositeButton.disabled)) return;
+            if (button.disabled) return;
 
             const turnOn = !button.classList.contains("btn-success");
             button.disabled = true;
-            if (oppositeButton) oppositeButton.disabled = true;
 
             try {
-                // Always send OFF to the paired actuator first. This also
-                // covers a stale or not-yet-loaded status on the page.
-                if (turnOn && oppositeButton) {
-                    const oppositeOffSent = await sendCommand(opposite.cmd, "off");
-                    if (!oppositeOffSent) return;
-                    setActuatorButtonState(oppositeButton, false);
-                }
-
                 const commandSent = await sendCommand(cmd, turnOn ? "on" : "off");
                 if (commandSent) setActuatorButtonState(button, turnOn);
             } finally {
                 button.disabled = false;
-                if (oppositeButton) oppositeButton.disabled = false;
             }
         };
     }
 
     [
-        ["heaterTopToggle", "setHeaterTop", { id: "coolerTopToggle", cmd: "setCoolerTop" }],
-        ["coolerTopToggle", "setCoolerTop", { id: "heaterTopToggle", cmd: "setHeaterTop" }],
+        ["heaterTopToggle", "setHeaterTop"],
         ["pumpToggle", "setPump"],
         ["mixerToggle", "setMixer"],
-        ["heaterBottomToggle", "setHeaterBottom", { id: "coolerBottomToggle", cmd: "setCoolerBottom" }],
-        ["coolerBottomToggle", "setCoolerBottom", { id: "heaterBottomToggle", cmd: "setHeaterBottom" }],
-    ].forEach(([id, cmd, opposite]) => toggleButton(id, cmd, opposite));
+        ["heaterBottomToggle", "setHeaterBottom"],
+    ].forEach(([id, cmd]) => toggleButton(id, cmd));
 
     /* ---------------- Sensoren (Live-Daten via MQTT) ---------------- */
 
@@ -229,11 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const actuatorButtonIds = {
         heater_top: "heaterTopToggle",
-        cooler_top: "coolerTopToggle",
         pump: "pumpToggle",
         mixer: "mixerToggle",
         heater_bottom: "heaterBottomToggle",
-        cooler_bottom: "coolerBottomToggle",
     };
 
     // Applies a status payload (from MQTT via socket.io, see keystone.js) to

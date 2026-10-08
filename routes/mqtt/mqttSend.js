@@ -18,6 +18,7 @@ function parseBrewId(raw) {
 
 mqttSend = (req, res) => { //setTs
   const options = req.body;
+  console.log(`[MQTT] ${req.params.cmd} -> ${options.value}`);
   switch (req.params.cmd) {
     case 'setTargetTemperature':
       keystone.get('mqtt').publish('brewery/NR/temperature/target/set', options.value.toString());
@@ -48,14 +49,11 @@ mqttSend = (req, res) => { //setTs
       break;
     }
     case 'setHeaterTop':
-    case 'setCoolerTop':
-    case 'setHeaterBottom':
-    case 'setCoolerBottom': {
+    case 'setHeaterBottom': {
       const brewId = parseBrewId(options.brewId);
       if (brewId === null) return sendResponse(req, res, true, 'Invalid brewId!');
       const zone = req.params.cmd.endsWith('Top') ? 'top' : 'bottom';
-      const actuator = req.params.cmd.startsWith('setHeater') ? 'heater' : 'cooler';
-      keystone.get('mqtt').publish(`brewery/${brewId}/${actuator}/${zone}/set`, options.value.toString());
+      keystone.get('mqtt').publish(`brewery/${brewId}/heater/${zone}/set`, options.value.toString());
       sendResponse(req, res, false, 'MQTT Message sent!');
       break;
     }
