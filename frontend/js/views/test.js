@@ -1,13 +1,9 @@
-/* public/js/test.js */
 import Chart from "chart.js/auto";
 
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("test.js wurde geladen");
 
-    // brewId comes from routes/views/test.js via the #brews data-brew-id
-    // attribute (same pattern as dashboard.js) - needed on every /mqtt/:cmd
-    // call so the backend knows which physical brew a command belongs to.
     const brewsEl = document.getElementById("brews");
     const brewId = brewsEl?.dataset.brewId;
     const maxDatapointsVisible = brewsEl?.dataset.number;
@@ -59,13 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Topf oben: eine Chart mit zwei Linien (Sensor 1 & Sensor 2).
+    // Topf oben: eine Chart mit zwei Linien (Sensor 1 und Sensor 2)
     const temperatureChartTop = createTemperatureChart(
         "temperatureChartTop",
         ["Sensor 1", "Sensor 2"],
         ["rgb(215, 0, 45)", "rgb(72, 173, 216)"]
     );
-    // Topf unten: eine Chart mit einer Linie (Boiler-Sensor).
+    // Topf unten: eine Chart mit einer Linie 
     const temperatureChartBottom = createTemperatureChart(
         "temperatureChartBottom",
         ["Sensor Unten"],
@@ -83,8 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
         chart.update();
     }
 
-    // POSTs a command to routes/mqtt/mqttSend.js, which publishes it via MQTT.
-    // Resolves to true/false so callers can decide whether to update the UI.
     function sendCommand(cmd, value) {
         return fetch(`/mqtt/${cmd}`, {
             method: "POST",
@@ -113,9 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Value is still mutated immediately (same as before), but the display is
-    // only updated once the backend confirms the MQTT message went out - and
-    // rolled back if the request failed, so it can't desync from the device.
+    // Der Wert wird sofort geändert die Anzeige wird aber erst
+    // aktualisiert wenn das Backend bestätigt dass die MQTT-Nachricht gesendet wurde
     document.getElementById("tempTopPlus")?.addEventListener("click", () => {
         targetTempTop++;
         sendCommand("setTargetTemperatureTop", targetTempTop).then((ok) => {
@@ -220,9 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
         heater_bottom_2: "heaterBottom2Toggle",
     };
 
-    // Applies a status payload (from MQTT via socket.io, see keystone.js) to
-    // the page: sensor readouts plus actuator state as last reported by the
-    // device itself, not just what the last local click assumed.
     function processStatus(payload) {
         setTemperature("dataTempRoom", payload.temperature_top_1);
         setTemperature("dataTempTop2", payload.temperature_top_2);
@@ -241,17 +231,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Preload known history (routes/views/test.js already queries this) so
-    // the charts and sensor readouts show real data immediately, instead of
-    // waiting for new MQTT messages to arrive. The query sorts newest-first,
-    // so reverse it to plot the charts left-to-right in chronological order.
     if (brewsEl?.dataset.brews) {
         const brews = JSON.parse(brewsEl.dataset.brews);
         [...brews].reverse().forEach(processStatus);
     }
 
-    // Live updates: the server re-broadcasts every incoming MQTT status
-    // message on a socket.io event named after its topic.
     const socket = io.connect(window.location.origin);
     socket.on(`brewery/${brewId}/status`, processStatus);
 
